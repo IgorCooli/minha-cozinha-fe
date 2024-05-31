@@ -1,0 +1,17 @@
+
+.circle-card {
+    @media (max-width: 768px) {
+        width: 55px !important;
+        height: 55px !important;
+    }
+
+    @media (min-width: 768px) {
+        width: 400px !important;
+        height: 120px !important;
+        border-radius: 5% !important;
+        margin: 10px auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+}
