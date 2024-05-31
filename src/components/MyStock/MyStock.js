@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Container, Row, Table, Pagination, Form } from 'react-bootstrap';
 import NavigationBar from '../navbar/NavigationBar';
 import { useNavigate } from 'react-router-dom';
-import { getStockData } from '../../service/stock/StockService';
+import { getStockData, addStockData } from '../../service/stock/StockService';
 
 const MyStock = () => {
     const [stockData, setStock] = useState([]);
     const [query, setQuery] = useState('');
     const [isFiltersVisible, setFiltersVisible] = useState(false);
+    const [isRegisterVisible, setRegisterVisible] = useState(false);
+    const [stockItem, setStockItem] = useState("");
     const [pageSize, setPageSize] = useState(5);
     const navigate = useNavigate();
 
@@ -27,6 +29,24 @@ const MyStock = () => {
         // Fetch initial data when the component mounts
         handleStock();
     }, [pageSize]);
+
+    const handleAddStockItem = () => {
+        if(stockItem!== "") {
+            addStockData(stockItem)
+                .then(() => {
+                    // Atualiza o estoque após adicionar o item
+                    handleStock();
+                    // Limpa o campo do novo item
+                    setStockItem("");
+                    setQuery("")
+                    handleStock()
+                })
+                .catch((error) => {
+                    console.error('Erro ao adicionar item ao estoque', error);
+                    // Trate o erro adequadamente
+                });
+        }
+    };
 
     const handleStock = () => {
         getStockData(query)
@@ -57,6 +77,10 @@ const MyStock = () => {
     const handleFilterVisibility = () => {
         setFiltersVisible(!isFiltersVisible);
     };
+    
+    const handleRegisterVisibility = () => {
+        setRegisterVisible(!isRegisterVisible);
+    };
 
     const handleRemoveItem = (index) => {
         // Lógica para remover o item do estoque
@@ -70,6 +94,52 @@ const MyStock = () => {
         <div>
             <NavigationBar />
             <Container className="mt-4">
+                <Card>
+                    <Card.Header>
+                        <Row>
+                            <Col>
+                                <Card.Title style={{ color: '#333333' }}>
+                                    Adicionar
+                                </Card.Title>
+                            </Col>
+                            <Col>
+                                <div style={hideBlockButtonStyle}>
+                                    <Button size="sm" onClick={handleRegisterVisibility} variant="outline-warning">
+                                        {isRegisterVisible ? <i className="fa-solid fa-angle-up"></i> : <i className="fa-solid fa-angle-down"></i>}
+                                    </Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Card.Header>
+                    {isRegisterVisible && (
+                        <Card.Body>
+                            <Row className="mt-4">
+                                <Col sm={1}>
+                                    Produto
+                                </Col>
+                                <Col sm={9}>
+                                    <Form.Group className="mb-3" controlId="formGridProduct">
+                                        <Form.Control
+                                            type="text"
+                                            id="formGridProduct"
+                                            value={stockItem}
+                                            onChange={(e) => setStockItem(e.target.value)}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={2}>
+                                    <Button
+                                        style={{ width: '100%' }}
+                                        onClick={handleAddStockItem} // Adiciona o item ao estoque
+                                        variant="outline-success"
+                                    >
+                                        Salvar
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Card.Body>
+                    )}
+                </Card>
                 <Card>
                     <Card.Header>
                         <Row>
@@ -94,10 +164,10 @@ const MyStock = () => {
                                     Buscar
                                 </Col>
                                 <Col sm={9}>
-                                    <Form.Group className="mb-3" controlId="formGridProduct">
+                                    <Form.Group className="mb-3" controlId="formGridSearch">
                                         <Form.Control
                                             type="text"
-                                            id="formGridProduct"
+                                            id="formGridSearch"
                                             value={query}
                                             onChange={(e) => handleSearchQuery(e.target.value)}
                                         />

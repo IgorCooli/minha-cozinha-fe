@@ -48,4 +48,35 @@ const getStockData = async (value) => {
 
 };
 
-export {findSales, getStockData};
+const addStockData = async (value) => {
+    let stockData = {
+        name: value
+    }
+    try {
+        const response = await axios.post(
+            'https://minha-cozinha-be-4ff98ced1599.herokuapp.com/stock',
+            // 'http://localhost:8080/api/register-customer',
+            JSON.stringify(stockData),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+    } catch (error) {
+        if (error.response.status === 401) {
+            console.log('Token expired');
+            throw new Error('token.invalid_or_expired');
+        }
+
+        if (error.response.status !== 201) {
+            console.log('Registration failed');
+            throw new Error('registration.failed');
+        }
+        console.log("ERROR ON SERVICE: " + error)
+        throw error;
+    }
+
+};
+
+export {findSales, getStockData, addStockData};
