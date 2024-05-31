@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Container, Row, Table, Pagination, Form, Button } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row, Table, Pagination, Form } from 'react-bootstrap';
 import NavigationBar from '../navbar/NavigationBar';
 import { useNavigate } from 'react-router-dom';
-import { findSales, getStockData } from '../../service/stock/StockService';
+import { getStockData } from '../../service/stock/StockService';
 
 const MyStock = () => {
     const [stockData, setStock] = useState([]);
@@ -25,14 +25,18 @@ const MyStock = () => {
 
     useEffect(() => {
         // Fetch initial data when the component mounts
-        const page = 0;
         handleStock();
     }, [pageSize]);
 
     const handleStock = () => {
         getStockData(query)
             .then((data) => {
-                setStock(data.data);
+                // Verifica se o retorno é nulo antes de atualizar o estado
+                if (data && data.data) {
+                    setStock(data.data);
+                } else {
+                    setStock([]);
+                }
             })
             .catch((error) => {
                 console.error('Erro ao buscar dados do estoque', error);
@@ -41,26 +45,26 @@ const MyStock = () => {
     };
 
     const cleanSearch = () => {
-        setQuery('')
-        handleStock()
-    }
+        setQuery('');
+        handleStock();
+    };
 
     const handleSearchQuery = (value) => {
-        setQuery(value)
-        handleStock()
-    }
+        setQuery(value);
+        handleStock();
+    };
 
     const handleFilterVisibility = () => {
         setFiltersVisible(!isFiltersVisible);
-    }
+    };
 
     const handleRemoveItem = (index) => {
         // Lógica para remover o item do estoque
-    }
+    };
 
     const renderPaginationItems = () => {
         // Implemente a renderização dos itens de paginação conforme necessário
-    }
+    };
 
     return (
         <div>
@@ -102,7 +106,7 @@ const MyStock = () => {
                                 <Col sm={2}>
                                     <Button
                                         style={{ width: '100%' }}
-                                        onClick={() => cleanSearch()} // Limpa o campo de consulta
+                                        onClick={cleanSearch} // Limpa o campo de consulta
                                         variant="outline-secondary"
                                     >
                                         Limpar
