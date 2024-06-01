@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Container, Row, Table, Pagination, Form } from 'react-bootstrap';
 import NavigationBar from '../navbar/NavigationBar';
 import { useNavigate } from 'react-router-dom';
-import { getStockData, addStockData } from '../../service/stock/StockService';
+import { getStockData, addStockData, removeStockItem } from '../../service/stock/StockService';
 
 const MyStock = () => {
     const [stockData, setStock] = useState([]);
@@ -52,8 +52,8 @@ const MyStock = () => {
         getStockData(query)
             .then((data) => {
                 // Verifica se o retorno é nulo antes de atualizar o estado
-                if (data && data.data) {
-                    setStock(data.data);
+                if (data) {
+                    setStock(data);
                 } else {
                     setStock([]);
                 }
@@ -82,8 +82,14 @@ const MyStock = () => {
         setRegisterVisible(!isRegisterVisible);
     };
 
-    const handleRemoveItem = (index) => {
-        // Lógica para remover o item do estoque
+    const handleRemoveItem = (id) => {
+        removeStockItem(id)
+        .then(() => {
+            handleStock()
+        })
+        .catch((error) => {
+            console.error('Erro ao remover item do estoque', error);
+        });
     };
 
     const renderPaginationItems = () => {
@@ -212,7 +218,7 @@ const MyStock = () => {
                                         <td className='col-1'>
                                             <Button
                                                 variant="danger"
-                                                onClick={() => handleRemoveItem(index)}
+                                                onClick={() => handleRemoveItem(item.id)}
                                             >
                                                 <i className="fa-solid fa-times"></i>
                                             </Button>

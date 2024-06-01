@@ -1,38 +1,10 @@
 import axios from "axios";
-
-const findSales = async (years, month, query, page, size) => {
-    try {
-        axios.defaults.withCredentials = true;
-        return await axios.get(
-            `https://minha-cozinha-be-4ff98ced1599.herokuapp.com/api/sales?year=${years}&month=${month}&page=${page}&size=${size}&query=${query}`,
-            // `http://localhost:8080/api/sales?year=${years}&month=${month}&page=${page}&size=${size}&query=${query}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-    } catch (error) {
-        if (error.response.status === 401) {
-            console.log('Token expired');
-            throw new Error('token.invalid_or_expired');
-        }
-
-        if (error.response.status !== 200) {
-            console.log('Search failed');
-            throw new Error('search.failed');
-        }
-        console.log("ERROR ON SERVICE: " + error)
-        throw error;
-    }
-
-};
+import ItemDto from "../../model/ItemDto";
 
 const getStockData = async (value) => {
     try {
         let data = await axios.get(
             `https://minha-cozinha-be-4ff98ced1599.herokuapp.com/stock/search?name=${value}`,
-            // 'http://localhost:8080/api/sales?page=${page}&size=${size}',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,7 +12,13 @@ const getStockData = async (value) => {
             }
         );
 
-        return data
+        let result = []
+
+        data.data.map((item, index)=>{
+            result.push(new ItemDto(item.id, item.name))
+        })
+
+        return result
     } catch (error) {
         console.log("ERROR ON SERVICE: " + error)
         throw error;
@@ -49,13 +27,10 @@ const getStockData = async (value) => {
 };
 
 const addStockData = async (value) => {
-    let stockData = {
-        name: value
-    }
+    let stockData = new ItemDto(null, value)
     try {
         const response = await axios.post(
             'https://minha-cozinha-be-4ff98ced1599.herokuapp.com/stock',
-            // 'http://localhost:8080/api/register-customer',
             JSON.stringify(stockData),
             {
                 headers: {
@@ -64,19 +39,21 @@ const addStockData = async (value) => {
             }
         );
     } catch (error) {
-        if (error.response.status === 401) {
-            console.log('Token expired');
-            throw new Error('token.invalid_or_expired');
-        }
-
-        if (error.response.status !== 201) {
-            console.log('Registration failed');
-            throw new Error('registration.failed');
-        }
         console.log("ERROR ON SERVICE: " + error)
         throw error;
     }
 
 };
 
-export {findSales, getStockData, addStockData};
+const removeStockItem = async (id) => {
+    try {
+        const response = await axios.delete(
+            `https://minha-cozinha-be-4ff98ced1599.herokuapp.com/stock/${id}`
+        );
+    } catch (error) {
+        console.log("ERROR ON SERVICE: " + error)
+        throw error;
+    }
+}
+
+export {getStockData, addStockData, removeStockItem};
