@@ -208,7 +208,7 @@ const MyStock = () => {
                             <thead>
                                 <tr>
                                     <th>Produto</th>
-                                    <th>x</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -220,7 +220,7 @@ const MyStock = () => {
                                                 variant="danger"
                                                 onClick={() => handleRemoveItem(item.id)}
                                             >
-                                                <i className="fa-solid fa-times"></i>
+                                                <i class="fa-solid fa-trash"></i>
                                             </Button>
                                         </td>
                                     </tr>

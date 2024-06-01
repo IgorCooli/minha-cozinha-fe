@@ -14,7 +14,7 @@ const HomePage = () => {
     // }
 
     const redirectShoppingList = () => {
-        navigate('//')
+        navigate('/my-shopping-list')
     }
     const redirectMyStock = () => {
         navigate('/my-stock')
