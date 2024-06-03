@@ -69,7 +69,7 @@ const HomePage = () => {
                                         width: '100%',
                                         height: '70px',
                                         padding: 'auto',
-                                        backgroundColor: '#E6E6FA',
+                                        backgroundColor: '#ffc10760',
                                         color: '#333333',
                                         borderColor: '#E6E6FA',
                                         marginBottom: '2vh'
@@ -103,7 +103,7 @@ const HomePage = () => {
                                         width: '100%',
                                         height: '70px',
                                         padding: 'auto',
-                                        backgroundColor: '#E6E6FA',
+                                        backgroundColor: '#ffc10760',
                                         color: '#333333',
                                         borderColor: '#E6E6FA',
                                     }}
