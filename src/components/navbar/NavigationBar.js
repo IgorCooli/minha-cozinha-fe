@@ -8,7 +8,12 @@ const NavigationBar = ({ title = "Minha Cozinha" }) => {
         <Navbar bg="white" expand="lg" className="shadow-sm mb-4">
             <Container>
                 <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-                    <i className="fa-solid fa-kitchen-set me-2 text-primary"></i>
+                    <img 
+                        src="/logo-minha-cozinha.png" 
+                        alt="Minha Cozinha Logo" 
+                        height="40" 
+                        className="me-2"
+                    />
                     <span className="fw-semibold">{title}</span>
                 </Navbar.Brand>
             </Container>

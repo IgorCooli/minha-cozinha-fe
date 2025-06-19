@@ -97,7 +97,7 @@ const ShoppingList = () => {
                             <Col xs="auto">
                                 <Button 
                                     variant="light"
-                                    className="action-button"
+                                    className="success-button"
                                     onClick={handleRegisterVisibility}
                                 >
                                     {isRegisterVisible ? 
