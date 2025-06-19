@@ -1,29 +1,18 @@
-import React, {useState} from 'react';
-import {Button, Nav, Navbar} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import React from 'react';
+import { Container, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import '../shared/styles/SharedStyles.css';
 
-const NavigationBar = () => {
-    const [showDropdown, setShowDropdown] = useState(false);
-    const navigate = useNavigate();
-
-    const iconStyle = {
-        color: '#E6E6FA',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        marginRight: '5%'
-    };
-
+const NavigationBar = ({ title = "Minha Cozinha" }) => {
     return (
-        <div style={{marginBottom: '2vh', backgroundColor: '#E6E6FA'}}>
-            <Navbar className="bg-body-tertiary mb-3" expand={"large"}>
-                <Navbar.Brand href="/" style={{marginLeft: '5%'}}>Minha Cozinha</Navbar.Brand>
-                <div style={iconStyle}>
-                    <Button style={{borderStyle: 'none'}} size={"sm"} variant={"outline-secondary"} href="/">
-                        <i className="fa-solid fa-house-chimney"></i>
-                    </Button>
-                </div>
-            </Navbar>
-        </div>
+        <Navbar bg="white" expand="lg" className="shadow-sm mb-4">
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+                    <i className="fa-solid fa-kitchen-set me-2 text-primary"></i>
+                    <span className="fw-semibold">{title}</span>
+                </Navbar.Brand>
+            </Container>
+        </Navbar>
     );
 };
 
