@@ -4,7 +4,7 @@ import ItemDto from "../../model/ItemDto";
 const getShoppingListData = async (value) => {
     try {
         let data = await axios.get(
-            `https://minha-cozinha-be-4ff98ced1599.herokuapp.com/shopping-list/search?name=${value}`,
+            `http://localhost:7000/shopping-list/search?name=${value}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const addShoppingListData = async (value) => {
     let stockData = new ItemDto(null, value)
     try {
         const response = await axios.post(
-            'https://minha-cozinha-be-4ff98ced1599.herokuapp.com/shopping-list',
+            'http://localhost:7000/shopping-list',
             JSON.stringify(stockData),
             {
                 headers: {
@@ -48,7 +48,7 @@ const addShoppingListData = async (value) => {
 const removeShoppingListItem = async (id) => {
     try {
         const response = await axios.delete(
-            `https://minha-cozinha-be-4ff98ced1599.herokuapp.com/shopping-list/${id}`
+            `http://localhost:7000/shopping-list/${id}`
         );
     } catch (error) {
         console.log("ERROR ON SERVICE: " + error)
