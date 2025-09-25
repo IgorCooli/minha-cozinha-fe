@@ -1,10 +1,11 @@
 import axios from "axios";
 import ItemDto from "../../model/ItemDto";
+import API_BASE_URL from "../../config/api";
 
 const getStockData = async (value) => {
     try {
         let data = await axios.get(
-            `http://localhost:7000/stock/search?name=${value}`,
+            `${API_BASE_URL}/stock/search?name=${value}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ const addStockData = async (value) => {
     let stockData = new ItemDto(null, value)
     try {
         const response = await axios.post(
-            'http://localhost:7000/stock',
+            `${API_BASE_URL}/stock`,
             JSON.stringify(stockData),
             {
                 headers: {
@@ -48,7 +49,7 @@ const addStockData = async (value) => {
 const removeStockItem = async (id) => {
     try {
         const response = await axios.delete(
-            `http://localhost:7000/stock/${id}`
+            `${API_BASE_URL}/stock/${id}`
         );
     } catch (error) {
         console.log("ERROR ON SERVICE: " + error)

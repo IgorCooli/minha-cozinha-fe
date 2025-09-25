@@ -1,10 +1,11 @@
 import axios from "axios";
 import ItemDto from "../../model/ItemDto";
+import API_BASE_URL from "../../config/api";
 
 const getShoppingListData = async (value) => {
     try {
         let data = await axios.get(
-            `http://localhost:7000/shopping-list/search?name=${value}`,
+            `${API_BASE_URL}/shopping-list/search?name=${value}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ const addShoppingListData = async (value) => {
     let stockData = new ItemDto(null, value)
     try {
         const response = await axios.post(
-            'http://localhost:7000/shopping-list',
+            `${API_BASE_URL}/shopping-list`,
             JSON.stringify(stockData),
             {
                 headers: {
@@ -48,7 +49,7 @@ const addShoppingListData = async (value) => {
 const removeShoppingListItem = async (id) => {
     try {
         const response = await axios.delete(
-            `http://localhost:7000/shopping-list/${id}`
+            `${API_BASE_URL}/shopping-list/${id}`
         );
     } catch (error) {
         console.log("ERROR ON SERVICE: " + error)
